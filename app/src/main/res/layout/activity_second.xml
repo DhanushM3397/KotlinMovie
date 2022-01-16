@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="epi_desc"
+            type="com.example.newsapp.modelClass.episode_information.RootOFEpisodes" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        tools:context=".SecondActivity">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="560dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            Descimage="@{epi_desc.ep_tvShows.image_thumbnail_path}"
+            app:layout_constraintStart_toEndOf="@+id/tx_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tx_name"
+            android:layout_width="172dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:text="@{`name :`+epi_desc.ep_tvShows.name}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tx_dura"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tx_dura"
+            android:layout_width="172dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:padding="5dp"
+            android:text="@{`Count :`+epi_desc.ep_tvShows.country}"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/tx_name" />
+
+        <TextView
+            android:id="@+id/tx_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:paddingLeft="5dp"
+            android:text="Introduction :"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textColor="#090808"
+            android:textSize="16sp"
+            android:textStyle="normal|bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="345dp"
+            android:text="@{`Description  :`+epi_desc.ep_tvShows.description}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tx_container" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="102dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="106dp"
+            android:layout_marginBottom="96dp"
+            android:text="@{`ID : `+epi_desc.ep_tvShows.id}"
+
+            app:layout_constraintBottom_toTopOf="@+id/tx_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.355"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/tx_dura" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

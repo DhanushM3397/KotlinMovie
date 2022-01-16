@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_second.xml" value="0.25" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/adapter_item_layout.xml" value="0.1" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/home_fragement.xml" value="0.1" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/pagingviewadapteritem.xml" value="0.33" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/testimonial_layout.xml" value="0.18" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/testimonials_layout.xml" value="0.18115942028985507" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/viewtestimonial_layout.xml" value="0.15625" />
+        <entry key="..\:/Users/TVD/AndroidStudioProjects/NewsApp/app/src/main/res/layout/viewtestimonials_layout.xml" value="0.1921875" />
+        <entry key="..\:/Users/TVD/Desktop/Git/KotlinMovieProject-master/app/src/main/res/drawable/backgroundfade.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/TVD/Desktop/Git/KotlinMovieProject-master/app/src/main/res/layout/activity_main.xml" value="0.1921875" />
+        <entry key="..\:/Users/TVD/Desktop/Git/KotlinMovieProject-master/app/src/main/res/layout/activity_second.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
