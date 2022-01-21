@@ -8,7 +8,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
+
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -19,8 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+
 
 import com.example.newsapp.adapter.RecylerNewsAdapter
 import com.example.newsapp.paging.PagingTvlistAdapter
@@ -30,7 +29,6 @@ import com.example.newsapp.databinding.ActivityMainBinding
 
 import com.example.newsapp.modelClass.Tv_shows
 import com.example.newsapp.paging.MainActivityViewModel
-import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collectLatest
 
@@ -121,9 +119,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-   private  fun nextActivity(){
 
-   }
 
 
 

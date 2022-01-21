@@ -17,10 +17,10 @@ open class ListviewModel : ViewModel() {
 
 
 
-    val usersLoadError = MutableLiveData<String?>()
-    val loading = MutableLiveData<Boolean>()
+    private val usersLoadError = MutableLiveData<String?>()
+    private val loading = MutableLiveData<Boolean>()
 
-    val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+    private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
 
@@ -37,7 +37,7 @@ open class ListviewModel : ViewModel() {
 
                 withContext(Dispatchers.Main + exceptionHandler) {
                     if (response?.isSuccessful!!) {
-                        mutableLiveData.value = response?.body()?.tv_shows
+                        mutableLiveData.value = response.body()?.tv_shows
                         usersLoadError.value = null
                         loading.value = false
                     } else {
@@ -59,7 +59,7 @@ open class ListviewModel : ViewModel() {
                val episodeResponse=newsInfoService.getEpisodeInfo(value)
                withContext(Dispatchers.Main+exceptionHandler){
 
-                   if (episodeResponse?.isSuccessful!!){
+                   if (episodeResponse.isSuccessful){
 
                        mutableEpisodeLiveData.value=episodeResponse.body()
 
