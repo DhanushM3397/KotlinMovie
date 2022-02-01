@@ -9,14 +9,29 @@
             name="epi_desc"
             type="com.example.newsapp.modelClass.episode_information.RootOFEpisodes" />
 
+        <variable
+            name="isLoadingMore"
+            type="Boolean" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:animateLayoutChanges="true"
+        android:background="#34495E"
         android:textAlignment="center"
         tools:context=".SecondActivity">
+
+        <ProgressBar
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="@{isLoadingMore ? View.VISIBLE:View.GONE,default=gone}"
+            app:layout_constraintBaseline_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imageView"
@@ -25,9 +40,9 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="48dp"
+            android:background="@color/purple_200"
             app:cardBackgroundColor="#00838F"
             app:cardCornerRadius="5dp"
-            android:background="@color/purple_200"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toTopOf="@+id/tx_container"
             app:layout_constraintEnd_toStartOf="@+id/tx_dura"
@@ -50,10 +65,11 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
             android:hint="@string/movie_name"
-            android:padding="5dp"
+           android:layout_marginStart="@dimen/dp8"
             android:paddingStart="10dp"
             android:text="@{epi_desc.ep_tvShows.name}"
-            android:textColorHint="@color/black"
+            android:textColor="@color/red"
+            android:textColorHint="@color/red"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tx_dura"
@@ -65,19 +81,18 @@
 
         <TextView
             android:id="@+id/tx_dura"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="79dp"
+            android:layout_height="29dp"
             android:layout_marginEnd="20dp"
             android:hint="@string/drama"
             android:padding="5dp"
             android:paddingStart="10dp"
-            android:text="@{`Genres :`+epi_desc.ep_tvShows.genres}"
-            android:textColorHint="@color/black"
+            android:text="@{epi_desc.ep_tvShows.country+`(`+`)`}"
+            android:textColor="@color/sky"
+            android:textColorHint="@color/sky"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/tx_name" />
 
         <TextView
@@ -85,13 +100,12 @@
             android:layout_width="125dp"
             android:layout_height="24dp"
             android:layout_marginStart="10dp"
-
             android:layout_marginEnd="10dp"
-
             android:hint="@string/ratings"
             android:text="@{`RATINGS : `+epi_desc.ep_tvShows.rating+` / 10`}"
+            android:textColor="@color/red"
             android:textStyle="bold"
-
+            android:textColorHint="@color/red"
             app:layout_constraintBottom_toTopOf="@+id/tx_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -111,7 +125,7 @@
             android:text="@string/introduction"
             android:textAlignment="textStart"
             android:textAllCaps="true"
-            android:textColor="#090808"
+            android:textColor="#F4D03F"
             android:textSize="16sp"
             android:textStyle="normal|bold"
             app:layout_constraintBottom_toTopOf="@+id/textView5"
@@ -121,17 +135,18 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
-       <TextView
+        <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp16"
             android:layout_marginTop="@dimen/dp16"
             android:layout_marginEnd="@dimen/dp16"
+            android:hint="ddkdndddddddddddddddddddddddddddddddddddddndddddddddddddddddddddddddddddddnnnnnnnnndnn"
+            android:maxLines="4"
             android:text="@{`Description  :`+epi_desc.ep_tvShows.description}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-           android:maxLines="4"
-           android:hint="ddkdndddddddddddddddddddddddddddddddddddddndddddddddddddddddddddddddddddddnnnnnnnnndnn"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,16 +156,100 @@
             android:id="@+id/text_seeMore"
             android:layout_width="wrap_content"
             android:layout_height="21dp"
-            android:text="@string/seemore"
             android:layout_marginStart="@dimen/dp16"
-            android:textAllCaps="false"
-            android:textColor="#A9A9A9"
             android:background="@android:color/transparent"
+            android:text="@string/seemore"
+            android:textAllCaps="false"
+            android:textColor="#5DADE2"
+            app:drawableRightCompat="@drawable/ic_down_arrow_down"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"
-            app:drawableRightCompat="@drawable/ic_down_arrow_down" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:weightSum="2"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.788"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_seeMore"
+            app:layout_constraintVertical_bias="0.049">
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="@dimen/dp8"
+                android:background="@color/gray" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="21dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/dp16"
+
+                android:layout_marginEnd="@dimen/dp16"
+                android:background="@android:color/transparent"
+                android:text='@{epi_desc.ep_tvShows.rating+"    .  " + epi_desc.ep_tvShows.country+"   .   "+epi_desc.ep_tvShows.start_date}'
+                android:textAllCaps="false"
+                android:textColor="#5DADE2"
+                app:drawableLeftCompat="@drawable/ic_star" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="@dimen/dp8"
+                android:background="@color/gray" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear"
+            app:layout_constraintVertical_bias="0.142">
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="150dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="@dimen/dp16"
+                android:layout_weight="1"
+                android:backgroundTint="@drawable/rounded_border"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/bt_watchlist"
+                android:layout_width="150dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="@dimen/dp16"
+                android:layout_marginEnd="@dimen/dp16"
+                android:layout_weight="1"
+                android:backgroundTint="@drawable/rounded_border"
+                android:text="@string/watchlist"
+                android:textAllCaps="true"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

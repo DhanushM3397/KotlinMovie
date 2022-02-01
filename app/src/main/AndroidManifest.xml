@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsApp"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false"
+            android:label="@string/title_activity_search_actvity"
+            android:theme="@style/Theme.NewsApp.NoActionBar" />
         <activity
             android:name=".SecondActivity"
             android:exported="false" />

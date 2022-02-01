@@ -12,7 +12,6 @@ import com.example.newsapp.R
 import com.example.newsapp.BR
 import com.example.newsapp.modelClass.Tv_shows
 
-import com.example.newsapp.viewpager.datasource.Testimonial
 
 class TestimonialAdapter : ListAdapter<Tv_shows, TestimonialViewHolder>(
     TestimonialItemDiffCallback()

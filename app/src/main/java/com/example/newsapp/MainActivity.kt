@@ -1,6 +1,7 @@
 package com.example.newsapp
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -46,7 +47,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        activityMainBinding.imgSearch.setOnClickListener {
 
+            val searchint = Intent(this@MainActivity, SearchActivity::class.java)
+            startActivity(searchint)
+
+        }
 
 
         initViewModel()
@@ -60,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initRecycler() {
+        activityMainBinding.isLoading = true
         if (checkForInternet(this)) {
             activityMainBinding.recycler.apply {
                 layoutManager =
@@ -76,14 +83,21 @@ class MainActivity : AppCompatActivity() {
                 //---------onitem Click----------------------------------------
                 recylerNewsAdapter = RecylerNewsAdapter(RecylerNewsAdapter.OnClickListener { name ->
 
+
                     val intent = Intent(this@MainActivity, SecondActivity::class.java)
-                    intent.putExtra("imageUrl", name.image_thumbnail_path)
-                    intent.putExtra("name", name.name)
-                    intent.putExtra("startTime", name.start_date)
-                    intent.putExtra("id",name.id)
+                    intent.putExtra("id", name.id)
+
+
+                    /*
+                        intent.putExtra("imageUrl", name.image_thumbnail_path)
+                        intent.putExtra("name", name.name)
+                        intent.putExtra("startTime", name.start_date)
+                       */
                     startActivity(intent)
 
                     viewModel.EpisodesInformation(name.id)
+
+
                 })
                 adapter = recylerNewsAdapter
 
@@ -97,7 +111,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel() {
 
+        activityMainBinding.isLoading = false
         //   viewModel = of(this).get(ListviewModel::class.java)    or
+        // Get the view model
+
         viewModel = ViewModelProvider(this).get(ListviewModel::class.java)
 
         viewModel.refresh()
@@ -119,10 +136,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
-
-
 
 
     private fun checkForInternet(context: Context): Boolean {

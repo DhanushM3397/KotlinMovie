@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/testimonials_layout"
     tools:showIn="@layout/home_fragement">
@@ -13,4 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+         app:tabBackground="@drawable/tab_pager_selector"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

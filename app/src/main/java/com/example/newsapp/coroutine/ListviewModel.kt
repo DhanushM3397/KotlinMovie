@@ -1,19 +1,24 @@
 package com.example.newsapp.coroutine
 
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.newsapp.DaoDatabase.RoomSingleton
 import com.example.newsapp.api.RetrofitClient
 import com.example.newsapp.modelClass.episode_information.RootOFEpisodes
 import com.example.newsapp.modelClass.Tv_shows
 import kotlinx.coroutines.*
 
-open class ListviewModel : ViewModel() {
+open class ListviewModel() : ViewModel() {
     private val newsInfoService = RetrofitClient().getNewsInformation()
     var job: Job? = null
 
 
     val mutableLiveData = MutableLiveData<List<Tv_shows>>()
-    val mutableEpisodeLiveData=MutableLiveData<RootOFEpisodes>()
+    val mutableEpisodeLiveData = MutableLiveData<RootOFEpisodes>()
+
+
+    val search_Data = MutableLiveData<List<Tv_shows>>()
 
 
 
@@ -49,29 +54,59 @@ open class ListviewModel : ViewModel() {
             }
         }
     }
-    fun EpisodesInformation(value: String){
+
+    fun searchViewModel(query: String, page: Int) {
+        searchTvShow(query, page)
+    }
+
+
+    private fun searchTvShow(query: String, page: Int) {
+        loading.value = true
+        job = CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val responsesearchview = newsInfoService.getsearchView(query, page)
+                withContext(Dispatchers.Main + exceptionHandler) {
+                    if (responsesearchview?.isSuccessful!!) {
+                        search_Data.value = responsesearchview.body()?.tv_shows
+                        usersLoadError.value = null
+                        loading.value = false
+
+                    } else {
+                        onError("Error : ${responsesearchview.message()} ")
+
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun EpisodesInformation(value: String) {
         fetchEpisodeInformation(value)
     }
+
     private fun fetchEpisodeInformation(value: String) {
-        loading.value= true
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO).launch {
-           try{
-               val episodeResponse=newsInfoService.getEpisodeInfo(value)
-               withContext(Dispatchers.Main+exceptionHandler){
+            try {
+                val episodeResponse = newsInfoService.getEpisodeInfo(value)
+                withContext(Dispatchers.Main + exceptionHandler) {
 
-                   if (episodeResponse.isSuccessful){
+                    if (episodeResponse.isSuccessful) {
 
-                       mutableEpisodeLiveData.value=episodeResponse.body()
+                        mutableEpisodeLiveData.value = episodeResponse.body()
 
-                       usersLoadError.value = null
-                       loading.value = false
-                   }else {
-                       onError("Error : ${episodeResponse.message()} ")
-                   } }
+                        usersLoadError.value = null
+                        loading.value = false
+                    } else {
+                        onError("Error : ${episodeResponse.message()} ")
+                    }
+                }
 
-           }catch (e:java.lang.Exception){
-               e.printStackTrace()
-           }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
 
         }
 
@@ -86,5 +121,6 @@ open class ListviewModel : ViewModel() {
         super.onCleared()
         job?.cancel()
     }
+
 
 }

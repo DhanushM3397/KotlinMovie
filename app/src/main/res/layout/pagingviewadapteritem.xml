@@ -8,6 +8,7 @@
         <variable
             name="pagingview"
             type="com.example.newsapp.modelClass.Tv_shows" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -17,9 +18,6 @@
         android:layout_marginEnd="10dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="10dp">
-
-
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 image="@{pagingview.image_thumbnail_path}"
