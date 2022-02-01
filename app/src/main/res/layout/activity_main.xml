@@ -16,15 +16,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2"
+        android:weightSum="3"
 
         tools:context=".MainActivity"
         tools:showIn="@layout/activity_main">
 
         <LinearLayout
+            android:id="@+id/linear_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:visibility="gone"
             android:background="#414871"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
@@ -40,7 +42,7 @@
 
                 android:includeFontPadding="false"
                 android:maxLines="1"
-                android:text="TV SHOWS | MOST POPULAR"
+                android:text="@string/tv_shows_most_popular"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -73,11 +75,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:visibility="gone"
             android:animateLayoutChanges="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:textAlignment="center"
                 tools:context=".MainActivity"
@@ -101,12 +104,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Treading Movies"
-
+                    android:text="@string/treading_movies"
                     android:textAllCaps="true"
                     android:textColor="@color/orange"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold|italic" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -118,20 +119,19 @@
                     android:layout_marginEnd="10dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:visibility="gone" />
+                   />
 
                 <TextView
                     android:id="@+id/tx_header1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
 
                     android:fontFamily="sans-serif-thin"
-                    android:text="latest Movies"
+                    android:text="@string/latest_movies"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
 
@@ -149,9 +149,26 @@
                     android:layout_height="25dp"
                     android:layout_marginBottom="12dp"
                     android:visibility="@{isLoading ? View.VISIBLE:View.GONE,default=gone}" />
+
+
             </LinearLayout>
 
+
+
         </ScrollView>
+
+        <ImageView
+            android:id="@+id/noInternet"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp8"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/interneteror"
+            />
+
     </LinearLayout>
 
 </layout>

@@ -62,10 +62,10 @@
             android:id="@+id/tx_name"
             android:layout_width="172dp"
             android:layout_height="37dp"
+            android:layout_marginStart="@dimen/dp8"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
             android:hint="@string/movie_name"
-           android:layout_marginStart="@dimen/dp8"
             android:paddingStart="10dp"
             android:text="@{epi_desc.ep_tvShows.name}"
             android:textColor="@color/red"
@@ -104,8 +104,8 @@
             android:hint="@string/ratings"
             android:text="@{`RATINGS : `+epi_desc.ep_tvShows.rating+` / 10`}"
             android:textColor="@color/red"
-            android:textStyle="bold"
             android:textColorHint="@color/red"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tx_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -227,13 +227,14 @@
             app:layout_constraintVertical_bias="0.142">
 
             <Button
-                android:id="@+id/cancel"
+                android:id="@+id/bt_episodes"
                 android:layout_width="150dp"
                 android:layout_height="47dp"
                 android:layout_marginStart="@dimen/dp16"
                 android:layout_weight="1"
-                android:backgroundTint="@drawable/rounded_border"
-                android:text="@string/cancel"
+                android:backgroundTint="@color/white"
+
+                android:text="@string/episodes"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
 
@@ -244,7 +245,7 @@
                 android:layout_marginStart="@dimen/dp16"
                 android:layout_marginEnd="@dimen/dp16"
                 android:layout_weight="1"
-                android:backgroundTint="@drawable/rounded_border"
+                android:backgroundTint="@color/white"
                 android:text="@string/watchlist"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />

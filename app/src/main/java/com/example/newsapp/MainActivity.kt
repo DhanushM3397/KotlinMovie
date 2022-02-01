@@ -1,7 +1,7 @@
 package com.example.newsapp
 
 import android.annotation.SuppressLint
-import android.app.Activity
+
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -9,6 +9,8 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+
 
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -17,6 +19,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders.*
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -36,76 +40,79 @@ import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
     lateinit var pagingTvlistAdapter: PagingTvlistAdapter
-
-
     lateinit var viewModel: ListviewModel
-
     var recylerNewsAdapter: RecylerNewsAdapter? = null
     lateinit var activityMainBinding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         activityMainBinding.imgSearch.setOnClickListener {
-
             val searchint = Intent(this@MainActivity, SearchActivity::class.java)
             startActivity(searchint)
-
         }
 
 
-        initViewModel()
-        initRecycler()
+        if (checkForInternet(this)) {
+            initViewModel()
+            initRecycler()
+            initPagingRecycler1()
+            initPagingViewModel1()
+        } else {
+            activityMainBinding.linearLayout.isVisible = false
+            activityMainBinding.mscrolview.isVisible = false
+            activityMainBinding.noInternet.isVisible = true
+            activityMainBinding.isLoading = false
+            Toast.makeText(this, "Please Turn on Your Internet", Toast.LENGTH_SHORT).show()
+        }
 
-        initPagingRecycler1()
-        initPagingViewModel1()
 
 
     }
 
 
     private fun initRecycler() {
+        activityMainBinding.linearLayout.isVisible = true
+        activityMainBinding.mscrolview.isVisible = true
         activityMainBinding.isLoading = true
-        if (checkForInternet(this)) {
-            activityMainBinding.recycler.apply {
-                layoutManager =
-                    LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+        activityMainBinding.noInternet.isVisible = false
+
+        activityMainBinding.recycler.apply {
+            layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
 
 
-                //---------------Staggered Grid with vertical Orientation------------------------------
-                /*  layoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)*/
+            //---------------Staggered Grid with vertical Orientation------------------------------
+            /*  layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)*/
 
 
-                setHasFixedSize(true)
-                activityMainBinding.recycler.isVisible = true   //visibility
-                //---------onitem Click----------------------------------------
-                recylerNewsAdapter = RecylerNewsAdapter(RecylerNewsAdapter.OnClickListener { name ->
+            setHasFixedSize(true)
+            activityMainBinding.recycler.isVisible = true   //visibility
+            //---------onitem Click----------------------------------------
+            recylerNewsAdapter = RecylerNewsAdapter(RecylerNewsAdapter.OnClickListener { name ->
 
 
-                    val intent = Intent(this@MainActivity, SecondActivity::class.java)
-                    intent.putExtra("id", name.id)
+                val intent = Intent(this@MainActivity, SecondActivity::class.java)
+                intent.putExtra("id", name.id)
 
 
-                    /*
-                        intent.putExtra("imageUrl", name.image_thumbnail_path)
-                        intent.putExtra("name", name.name)
-                        intent.putExtra("startTime", name.start_date)
-                       */
-                    startActivity(intent)
+                /*
+                    intent.putExtra("imageUrl", name.image_thumbnail_path)
+                    intent.putExtra("name", name.name)
+                    intent.putExtra("startTime", name.start_date)
+                   */
+                startActivity(intent)
 
-                    viewModel.EpisodesInformation(name.id)
+                viewModel.EpisodesInformation(name.id)
 
 
-                })
-                adapter = recylerNewsAdapter
+            })
+            adapter = recylerNewsAdapter
 
-                observeViewModel()
-            }
-        } else {
-            activityMainBinding.recycler.isVisible = false
-            Toast.makeText(this, "Please Turn on Your Internet", Toast.LENGTH_SHORT).show()
+            observeViewModel()
         }
     }
 
@@ -182,40 +189,40 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initPagingRecycler1() {
-        if (checkForInternet(this)) {
-            activityMainBinding.recyclerView1.apply {
-                /*layoutManager =
-                     LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)*/
-                //---------------Staggered Grid with vertical Orientation------------------------------
-                layoutManager =
-                    StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        activityMainBinding.linearLayout.isVisible = true
+        activityMainBinding.mscrolview.isVisible = true
+        activityMainBinding.isLoading = true
+        activityMainBinding.noInternet.isVisible = false
+
+        activityMainBinding.recyclerView1.apply {
+            /*layoutManager =
+                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)*/
+            //---------------Staggered Grid with vertical Orientation------------------------------
+            layoutManager =
+                StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
 
 
-                val decoration =
-                    DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
-                recyclerView1.addItemDecoration(decoration)
-                val decoration1 =
-                    DividerItemDecoration(applicationContext, DividerItemDecoration.HORIZONTAL)
-                recyclerView1.addItemDecoration(decoration1)
+            val decoration =
+                DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+            recyclerView1.addItemDecoration(decoration)
+            val decoration1 =
+                DividerItemDecoration(applicationContext, DividerItemDecoration.HORIZONTAL)
+            recyclerView1.addItemDecoration(decoration1)
 
-                setHasFixedSize(true)
-
-
-                pagingTvlistAdapter =
-                    PagingTvlistAdapter(PagingTvlistAdapter.OnPagingItemClick { name ->
-                        Toast.makeText(
-                            applicationContext,
-                            name.tv_shows[0].name,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    })
-                adapter = pagingTvlistAdapter
+            setHasFixedSize(true)
 
 
-            }
-        } else {
-            activityMainBinding.recycler.isVisible = false
-            Toast.makeText(this, "Please Turn on Your Internet", Toast.LENGTH_SHORT).show()
+            pagingTvlistAdapter =
+                PagingTvlistAdapter(PagingTvlistAdapter.OnPagingItemClick { name ->
+                    Toast.makeText(
+                        applicationContext,
+                        name.tv_shows[0].name,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+            adapter = pagingTvlistAdapter
+
+
         }
     }
 
@@ -224,10 +231,9 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         lifecycleScope.launchWhenCreated {
             viewModel.getListData().collectLatest {
+
                 pagingTvlistAdapter.submitData(it)
             }
         }
     }
-
-
 }

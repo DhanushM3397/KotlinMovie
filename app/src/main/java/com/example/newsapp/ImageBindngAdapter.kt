@@ -21,7 +21,7 @@ fun ConstraintLayout.background(url:String?){
         }
 
         override fun onLoadCleared(placeholder: Drawable?) {
-            TODO("Not yet implemented")
+           return
         }
 
     })

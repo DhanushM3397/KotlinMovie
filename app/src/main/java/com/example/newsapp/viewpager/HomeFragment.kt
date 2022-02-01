@@ -40,9 +40,7 @@ class HomeFragment : Fragment() {
         listviewModel.refresh()
 
 
-       TabLayoutMediator(view.tab_layout, view.testimonials_view_pager) { tab, position ->
 
-        }.attach()
 
 
 
