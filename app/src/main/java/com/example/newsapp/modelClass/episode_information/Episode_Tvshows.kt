@@ -41,7 +41,7 @@ data class Episode_Tvshows(
     var network: String,
 
 
-    @SerializedName("genres")
+   /* @SerializedName("genres")
     var genres: List<String>,
 
 
@@ -50,7 +50,7 @@ data class Episode_Tvshows(
 
 
     @SerializedName("episodes")
-    var episodes: List<Episodes>
+    var episodes: List<Episodes>*/
 
 
 ) {
