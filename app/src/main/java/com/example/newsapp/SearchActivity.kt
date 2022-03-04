@@ -1,24 +1,26 @@
 package com.example.newsapp
 
 import android.annotation.SuppressLint
-
+import android.content.Intent
+import android.database.DatabaseUtils
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-
+import com.example.newsapp.adapter.RecylerNewsAdapter
 import com.example.newsapp.adapter.TvshowAdapter
 import com.example.newsapp.coroutine.ListviewModel
 import com.example.newsapp.databinding.ActivitySearchBinding
 
 import com.example.newsapp.modelClass.Tv_shows
 import java.util.*
-
+import java.util.Locale.filter
 import kotlin.collections.ArrayList
 
 class SearchActivity : AppCompatActivity() {
