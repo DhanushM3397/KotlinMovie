@@ -84,11 +84,10 @@ class SecondActivity : AppCompatActivity() {
                     it.ep_tvShows.country,
                     it.ep_tvShows.image_thumbnail_path,
                     it.ep_tvShows.rating,
-                   it.ep_tvShows.genres[0],
+                  /* it.ep_tvShows.genres[0],
                     it.ep_tvShows.network,
                     it.ep_tvShows.episodes[0].season,
-                    it.ep_tvShows.episodes[0].air_date
-                )
+                    it.ep_tvShows.episodes[0].air_date*/)
                 model.insert(entiity)
 
             })
@@ -102,8 +101,8 @@ class SecondActivity : AppCompatActivity() {
              blankFragment.show(supportFragmentManager, blankFragment.tag)*/
 
           model.students.observe(this, {name->
-           Log.d("shs",name[0].air_date)
-              Toast.makeText(this,"messagae"+name[0].air_date,Toast.LENGTH_LONG).show()
+           Log.d("shs",name[0].country)
+              Toast.makeText(this,"messagae"+name[0].country,Toast.LENGTH_LONG).show()
 
           })
 

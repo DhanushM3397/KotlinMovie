@@ -41,7 +41,7 @@ data class EpisodeEntiity(
     @ColumnInfo(name = "rating")
     @SerializedName("rating")
     var rating: String,
-
+/*
    @ColumnInfo(name = "genres")
     @SerializedName("genres")
     var genres: String,
@@ -52,11 +52,11 @@ data class EpisodeEntiity(
 
    @ColumnInfo(name = "season")
     @SerializedName("season")
-    var season: String,
-
+    var season: String,*/
+/*
     @ColumnInfo(name = "air_date")
     @SerializedName("air_date")
-    var air_date: String
+    var air_date: String*/
 ) {
 
 }

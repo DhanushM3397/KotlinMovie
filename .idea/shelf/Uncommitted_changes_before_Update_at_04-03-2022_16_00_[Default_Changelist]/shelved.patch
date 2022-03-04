@@ -1,0 +1,183 @@
+Index: app/src/main/java/com/example/newsapp/DaoDatabase/UsersDao.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.newsapp.DaoDatabase\r\n\r\n\r\nimport androidx.lifecycle.LiveData\r\nimport androidx.room.Dao\r\nimport androidx.room.Insert\r\nimport androidx.room.OnConflictStrategy\r\nimport androidx.room.Query\r\nimport kotlinx.coroutines.flow.Flow\r\n\r\n@Dao\r\ninterface UsersDao {\r\n\r\n\r\n    @Insert(onConflict = OnConflictStrategy.REPLACE)\r\n     fun insert(student:EpisodeEntiity)\r\n\r\n @Query(\"DELETE FROM episodetvshow\")\r\n     fun clear()\r\n\r\n\r\n\r\n\r\n    @Query(\"SELECT * FROM episodetvshow ORDER BY id DESC\")\r\n    fun allEmplyees(): LiveData<List<EpisodeEntiity>>\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/newsapp/DaoDatabase/UsersDao.kt b/app/src/main/java/com/example/newsapp/DaoDatabase/UsersDao.kt
+--- a/app/src/main/java/com/example/newsapp/DaoDatabase/UsersDao.kt	(revision 28d06f0ec6f9eeba5ecf459b9b301fc1c94965a7)
++++ b/app/src/main/java/com/example/newsapp/DaoDatabase/UsersDao.kt	(date 1646388968523)
+@@ -1,26 +1,26 @@
+ package com.example.newsapp.DaoDatabase
+ 
+-
+ import androidx.lifecycle.LiveData
+ import androidx.room.Dao
+ import androidx.room.Insert
+ import androidx.room.OnConflictStrategy
+ import androidx.room.Query
+-import kotlinx.coroutines.flow.Flow
++import com.example.newsapp.modelClass.episode_information.Episode_Tvshows
+ 
+ @Dao
+ interface UsersDao {
+-
++  /*  @Query("SELECT * FROM episodetvshow ")
++    fun getStudents(): LiveData<List<Episode_Tvshows>>*/
+ 
+     @Insert(onConflict = OnConflictStrategy.REPLACE)
+-     fun insert(student:EpisodeEntiity)
++    fun insert(student: EpisodeEntiity)
+ 
+- @Query("DELETE FROM episodetvshow")
+-     fun clear()
++
++    @Query("DELETE FROM episodetvshow")
++    fun clear()
+ 
+ 
+-
+-
+     @Query("SELECT * FROM episodetvshow ORDER BY id DESC")
+     fun allEmplyees(): LiveData<List<EpisodeEntiity>>
++
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/newsapp/SecondActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.newsapp\r\n\r\n\r\nimport android.annotation.SuppressLint\r\nimport android.nfc.Tag\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.widget.Toast\r\nimport androidx.databinding.DataBindingUtil\r\nimport androidx.lifecycle.ViewModelProvider\r\nimport com.example.newsapp.DaoDatabase.EpisodeEntiity\r\n\r\nimport com.example.newsapp.coroutine.ListviewModel\r\nimport com.example.newsapp.coroutine.Roomviewmodel\r\n\r\n\r\nimport com.example.newsapp.databinding.ActivitySecondBinding\r\nimport com.example.newsapp.fragments.BlankFragment\r\n\r\n\r\nclass SecondActivity : AppCompatActivity() {\r\n    lateinit var activitySecondBinding: ActivitySecondBinding\r\n    private lateinit var model: Roomviewmodel\r\n    private lateinit var entiity: EpisodeEntiity\r\n\r\n    private lateinit var viewModel: ListviewModel\r\n    lateinit var  retrivethedata:List<EpisodeEntiity>\r\n\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n\r\n\r\n        val urlId: String = intent.getStringExtra(\"id\").toString()\r\n\r\n\r\n        activitySecondBinding =\r\n            DataBindingUtil.setContentView(this, R.layout.activity_second)// initialization\r\n        model = ViewModelProvider(this).get(Roomviewmodel::class.java)\r\n\r\n        try {\r\n            initViewModel1(urlId)\r\n        } catch (e: Exception) {\r\n            e.printStackTrace()\r\n        }\r\n        viewModelToViewDataBinding()\r\n        expandableTextview()\r\n     watchlist()\r\n    Episodes()\r\n    }\r\n\r\n    private fun viewModelToViewDataBinding() =\r\n\r\n\r\n        //----------------data binding of View Model  to view---------------------------------------------------------\r\n        viewModel.mutableEpisodeLiveData.observe(this, {\r\n            activitySecondBinding.epiDesc = it\r\n\r\n            activitySecondBinding.isLoadingMore = false\r\n        })\r\n\r\n\r\n    private fun initViewModel1(id: String) {\r\n        activitySecondBinding.isLoadingMore = true\r\n        //   viewModel = of(this).get(ListviewModel::class.java)    or\r\n\r\n        viewModel = ViewModelProvider(this).get(ListviewModel::class.java)\r\n\r\n        viewModel.EpisodesInformation(id)\r\n\r\n\r\n    }\r\n\r\n    private fun watchlist() {\r\n        activitySecondBinding.btWatchlist.setOnClickListener {\r\n            viewModel.mutableEpisodeLiveData.observe(this, {\r\n                entiity = EpisodeEntiity(\r\n                    it.ep_tvShows.id,\r\n                    it.ep_tvShows.name,\r\n                    it.ep_tvShows.url,\r\n                    it.ep_tvShows.description,\r\n                    it.ep_tvShows.start_date,\r\n                    it.ep_tvShows.country,\r\n                    it.ep_tvShows.image_thumbnail_path,\r\n                    it.ep_tvShows.rating,\r\n                   it.ep_tvShows.genres[0],\r\n                    it.ep_tvShows.network,\r\n                    it.ep_tvShows.episodes[0].season,\r\n                    it.ep_tvShows.episodes[0].air_date\r\n                )\r\n                model.insert(entiity)\r\n\r\n            })\r\n        }\r\n    }\r\n\r\n    private fun Episodes() {\r\n        activitySecondBinding.btEpisodes.setOnClickListener {\r\n\r\n            /* val blankFragment = BlankFragment().newInstance()\r\n             blankFragment.show(supportFragmentManager, blankFragment.tag)*/\r\n\r\n          model.students.observe(this, {name->\r\n           Log.d(\"shs\",name[0].air_date)\r\n              Toast.makeText(this,\"messagae\"+name[0].air_date,Toast.LENGTH_LONG).show()\r\n\r\n          })\r\n\r\n\r\n        }\r\n    }\r\n\r\n    @SuppressLint(\"SetTextI18n\")\r\n    private fun expandableTextview() {\r\n        activitySecondBinding.textSeeMore.setOnClickListener {\r\n            if (activitySecondBinding.textSeeMore.text.equals(\"ReadMore...\")) {\r\n                activitySecondBinding.textView5.maxLines = Int.MAX_VALUE\r\n                activitySecondBinding.textSeeMore.setCompoundDrawablesWithIntrinsicBounds(\r\n                    0,\r\n                    0,\r\n                    R.drawable.ic_arrow_up,\r\n                    0\r\n                )\r\n                activitySecondBinding.textSeeMore.text = \"ReadLess...\"\r\n\r\n            } else {\r\n                activitySecondBinding.textView5.maxLines = 3\r\n                activitySecondBinding.textSeeMore.text = \"ReadMore...\"\r\n                activitySecondBinding.textSeeMore.setCompoundDrawablesWithIntrinsicBounds(\r\n                    0,\r\n                    0,\r\n                    R.drawable.ic_down_arrow_down,\r\n                    0\r\n                )\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/newsapp/SecondActivity.kt b/app/src/main/java/com/example/newsapp/SecondActivity.kt
+--- a/app/src/main/java/com/example/newsapp/SecondActivity.kt	(revision 28d06f0ec6f9eeba5ecf459b9b301fc1c94965a7)
++++ b/app/src/main/java/com/example/newsapp/SecondActivity.kt	(date 1646388005197)
+@@ -84,11 +84,10 @@
+                     it.ep_tvShows.country,
+                     it.ep_tvShows.image_thumbnail_path,
+                     it.ep_tvShows.rating,
+-                   it.ep_tvShows.genres[0],
++                  /* it.ep_tvShows.genres[0],
+                     it.ep_tvShows.network,
+                     it.ep_tvShows.episodes[0].season,
+-                    it.ep_tvShows.episodes[0].air_date
+-                )
++                    it.ep_tvShows.episodes[0].air_date*/)
+                 model.insert(entiity)
+ 
+             })
+@@ -102,8 +101,8 @@
+              blankFragment.show(supportFragmentManager, blankFragment.tag)*/
+ 
+           model.students.observe(this, {name->
+-           Log.d("shs",name[0].air_date)
+-              Toast.makeText(this,"messagae"+name[0].air_date,Toast.LENGTH_LONG).show()
++           Log.d("shs",name[0].country)
++              Toast.makeText(this,"messagae"+name[0].country,Toast.LENGTH_LONG).show()
+ 
+           })
+ 
+Index: app/src/main/java/com/example/newsapp/coroutine/Roomviewmodel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.newsapp.coroutine\r\n\r\nimport android.app.Application\r\nimport androidx.lifecycle.AndroidViewModel\r\nimport androidx.lifecycle.LiveData\r\nimport androidx.lifecycle.viewModelScope\r\n\r\nimport com.example.newsapp.DaoDatabase.RoomSingleton\r\nimport com.example.newsapp.modelClass.episode_information.Episode_Tvshows\r\nimport kotlinx.coroutines.Dispatchers\r\nimport kotlinx.coroutines.launch\r\n\r\n\r\nclass Roomviewmodel(application: Application):AndroidViewModel(application) {\r\n    private val db:RoomSingleton = RoomSingleton.getInstance(application)\r\n\r\n\r\n    internal val students : LiveData<List<Episode_Tvshows>> = db.userdao().getStudents()\r\n    fun insert(student: Episode_Tvshows){\r\n\r\n        viewModelScope.launch(Dispatchers.IO) {\r\n            db.userdao().insert(student)\r\n        }\r\n    }\r\n\r\n    fun clear(){\r\n        viewModelScope.launch(Dispatchers.IO) {\r\n            db.userdao()\r\n        }\r\n    }\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/newsapp/coroutine/Roomviewmodel.kt b/app/src/main/java/com/example/newsapp/coroutine/Roomviewmodel.kt
+--- a/app/src/main/java/com/example/newsapp/coroutine/Roomviewmodel.kt	(revision 28d06f0ec6f9eeba5ecf459b9b301fc1c94965a7)
++++ b/app/src/main/java/com/example/newsapp/coroutine/Roomviewmodel.kt	(date 1646387836064)
+@@ -5,18 +5,26 @@
+ import androidx.lifecycle.LiveData
+ import androidx.lifecycle.viewModelScope
+ 
++import com.example.newsapp.DaoDatabase.EpisodeEntiity
++
++
+ import com.example.newsapp.DaoDatabase.RoomSingleton
+ import com.example.newsapp.modelClass.episode_information.Episode_Tvshows
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.launch
+ 
+ 
++
+ class Roomviewmodel(application: Application):AndroidViewModel(application) {
++
+     private val db:RoomSingleton = RoomSingleton.getInstance(application)
+ 
++ internal val students :LiveData<List<EpisodeEntiity>> = db.userdao().allEmplyees()
++
+ 
+-    internal val students : LiveData<List<Episode_Tvshows>> = db.userdao().getStudents()
+-    fun insert(student: Episode_Tvshows){
++  // val students : LiveData<List<Episode_Tvshows>> = db.userdao().getStudents()
++
++    fun insert(student: EpisodeEntiity){
+ 
+         viewModelScope.launch(Dispatchers.IO) {
+             db.userdao().insert(student)
+Index: app/src/main/java/com/example/newsapp/DaoDatabase/EpisodeEntiity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.newsapp.DaoDatabase\r\n\r\nimport androidx.room.ColumnInfo\r\nimport androidx.room.Entity\r\nimport androidx.room.PrimaryKey\r\nimport com.google.gson.annotations.SerializedName\r\nimport java.security.AlgorithmParameterGeneratorSpi\r\n\r\n\r\n@Entity(tableName = \"episodetvshow\")\r\ndata class EpisodeEntiity(\r\n\r\n    @PrimaryKey\r\n    @SerializedName(\"id\")\r\n    var id: Int,\r\n\r\n    @ColumnInfo(name = \"name\")\r\n    @SerializedName(\"name\")\r\n    var name: String,\r\n\r\n    @ColumnInfo(name = \"url\")\r\n    @SerializedName(\"url\")\r\n    var url: String,\r\n\r\n    @ColumnInfo(name = \"description\")\r\n    @SerializedName(\"description\")\r\n    var description: String,\r\n\r\n    @ColumnInfo(name = \"start_date\")\r\n    @SerializedName(\"start_date\")\r\n    var start_date: String,\r\n\r\n    @ColumnInfo(name = \"country\")\r\n    @SerializedName(\"country\")\r\n    var country: String,\r\n\r\n    @ColumnInfo(name = \"image_thumbnail_path\")\r\n    @SerializedName(\"image_thumbnail_path\")\r\n    var image_thumbnail_path: String,\r\n\r\n    @ColumnInfo(name = \"rating\")\r\n    @SerializedName(\"rating\")\r\n    var rating: String,\r\n\r\n   @ColumnInfo(name = \"genres\")\r\n    @SerializedName(\"genres\")\r\n    var genres: String,\r\n\r\n    @ColumnInfo(name = \"network\")\r\n    @SerializedName(\"network\")\r\n    var network: String,\r\n\r\n   @ColumnInfo(name = \"season\")\r\n    @SerializedName(\"season\")\r\n    var season: String,\r\n\r\n    @ColumnInfo(name = \"air_date\")\r\n    @SerializedName(\"air_date\")\r\n    var air_date: String\r\n) {\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/newsapp/DaoDatabase/EpisodeEntiity.kt b/app/src/main/java/com/example/newsapp/DaoDatabase/EpisodeEntiity.kt
+--- a/app/src/main/java/com/example/newsapp/DaoDatabase/EpisodeEntiity.kt	(revision 28d06f0ec6f9eeba5ecf459b9b301fc1c94965a7)
++++ b/app/src/main/java/com/example/newsapp/DaoDatabase/EpisodeEntiity.kt	(date 1646388005182)
+@@ -41,7 +41,7 @@
+     @ColumnInfo(name = "rating")
+     @SerializedName("rating")
+     var rating: String,
+-
++/*
+    @ColumnInfo(name = "genres")
+     @SerializedName("genres")
+     var genres: String,
+@@ -52,11 +52,11 @@
+ 
+    @ColumnInfo(name = "season")
+     @SerializedName("season")
+-    var season: String,
+-
++    var season: String,*/
++/*
+     @ColumnInfo(name = "air_date")
+     @SerializedName("air_date")
+-    var air_date: String
++    var air_date: String*/
+ ) {
+ 
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/newsapp/modelClass/episode_information/Episode_Tvshows.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.newsapp.modelClass.episode_information\r\n\r\nimport com.google.gson.annotations.SerializedName\r\n\r\n\r\ndata class Episode_Tvshows(\r\n\r\n    @SerializedName(\"id\")\r\n    var id: Int,\r\n\r\n    @SerializedName(\"name\")\r\n    var name: String,\r\n\r\n\r\n    @SerializedName(\"url\")\r\n    var url: String,\r\n\r\n\r\n\r\n    @SerializedName(\"description\")\r\n    var description: String,\r\n\r\n\r\n    @SerializedName(\"start_date\")\r\n    var start_date: String,\r\n\r\n\r\n    @SerializedName(\"country\")\r\n    var country: String,\r\n\r\n    @SerializedName(\"image_thumbnail_path\")\r\n    var image_thumbnail_path: String,\r\n\r\n\r\n    @SerializedName(\"rating\")\r\n    var rating: String,\r\n\r\n\r\n\r\n    @SerializedName(\"network\")\r\n    var network: String,\r\n\r\n\r\n    @SerializedName(\"genres\")\r\n    var genres: List<String>,\r\n\r\n\r\n    @SerializedName(\"pictures\")\r\n    var pictures: List<String>,\r\n\r\n\r\n    @SerializedName(\"episodes\")\r\n    var episodes: List<Episodes>\r\n\r\n\r\n) {\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/newsapp/modelClass/episode_information/Episode_Tvshows.kt b/app/src/main/java/com/example/newsapp/modelClass/episode_information/Episode_Tvshows.kt
+--- a/app/src/main/java/com/example/newsapp/modelClass/episode_information/Episode_Tvshows.kt	(revision 28d06f0ec6f9eeba5ecf459b9b301fc1c94965a7)
++++ b/app/src/main/java/com/example/newsapp/modelClass/episode_information/Episode_Tvshows.kt	(date 1646387913584)
+@@ -41,7 +41,7 @@
+     var network: String,
+ 
+ 
+-    @SerializedName("genres")
++   /* @SerializedName("genres")
+     var genres: List<String>,
+ 
+ 
+@@ -50,7 +50,7 @@
+ 
+ 
+     @SerializedName("episodes")
+-    var episodes: List<Episodes>
++    var episodes: List<Episodes>*/
+ 
+ 
+ ) {
